@@ -5,10 +5,10 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.25.2.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Utkarsh Sethi, -, LIC=UB463-ADA74-YC4J1-CA5E8-0RQ7W-IFX2G
+License Information: Utkarsh Sethi, -, LIC=QF8SB-20N5Y-6QP0X-HQTPQ-VDYAI-NRK5Z
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.25.2.0
+Toolchain:       MDK-ARM Plus  Version: 5.25.2.0
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
@@ -22,67 +22,15 @@ Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
 D:\Git\Embedded-Systems-Bare-Metal-Programming-Ground-Up\blinky\blinky.uvprojx
-Project File Date:  05/12/2020
+Project File Date:  05/25/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F407'
-assembling startup_stm32f407xx.s...
-startup_stm32f407xx.s: Error: A9555E: Failed to check out a license.LICENSE ERROR (R207(3): REGISTRY READ ERROR)
-startup_stm32f407xx.s: 
-startup_stm32f407xx.s: Check that your license details are correct in the License Management dialog of MDK. Additional information is available at:
-startup_stm32f407xx.s:  http://www.keil.com/support/man/docs/license/license_management.htm
-startup_stm32f407xx.s:  If you need further help, provide this complete error report to your supplier or license.support@arm.com.
-startup_stm32f407xx.s:  - ARMLMD_LICENSE_FILE: unset
-startup_stm32f407xx.s:  - LM_LICENSE_FILE: unset
-startup_stm32f407xx.s:  - ARM_TOOL_VARIANT: unset
-startup_stm32f407xx.s:  - ARM_PRODUCT_PATH: unset
-startup_stm32f407xx.s:  - Product location: C:\Keil_v5\ARM\sw\mappings
-startup_stm32f407xx.s:  - Toolchain location: C:\Keil_v5\ARM\ARMCC\Bin
-startup_stm32f407xx.s:  - Selected tool variant: mdk_pro
-startup_stm32f407xx.s:  - Checkout feature: LIC0=TA...-.....-.....
-startup_stm32f407xx.s:  - Feature version: 5.0201709
-startup_stm32f407xx.s:  - Keil error code: 1
-startup_stm32f407xx.s: Product: MDK Professional 5.25
-startup_stm32f407xx.s: Component: ARM Compiler 5.06 update 6 (build 750)
-startup_stm32f407xx.s: Tool: ArmAsm [4d35ec]
 compiling main.c...
-Error: C9555E: Failed to check out a license.LICENSE ERROR (R207(3): REGISTRY READ ERROR)
-Check that your license details are correct in the License Management dialog of MDK. Additional information is available at:
- http://www.keil.com/support/man/docs/license/license_management.htm
- If you need further help, provide this complete error report to your supplier or license.support@arm.com.
- - ARMLMD_LICENSE_FILE: unset
- - LM_LICENSE_FILE: unset
- - ARM_TOOL_VARIANT: unset
- - ARM_PRODUCT_PATH: unset
- - Product location: C:\Keil_v5\ARM\sw\mappings
- - Toolchain location: C:\Keil_v5\ARM\ARMCC\Bin
- - Selected tool variant: mdk_pro
- - Checkout feature: LIC0=TA...-.....-.....
- - Feature version: 5.0201709
- - Keil error code: 1
-Product: MDK Professional 5.25
-Component: ARM Compiler 5.06 update 6 (build 750)
-Tool: ArmCC [4d3637]
-compiling system_stm32f4xx.c...
-Error: C9555E: Failed to check out a license.LICENSE ERROR (R207(3): REGISTRY READ ERROR)
-Check that your license details are correct in the License Management dialog of MDK. Additional information is available at:
- http://www.keil.com/support/man/docs/license/license_management.htm
- If you need further help, provide this complete error report to your supplier or license.support@arm.com.
- - ARMLMD_LICENSE_FILE: unset
- - LM_LICENSE_FILE: unset
- - ARM_TOOL_VARIANT: unset
- - ARM_PRODUCT_PATH: unset
- - Product location: C:\Keil_v5\ARM\sw\mappings
- - Toolchain location: C:\Keil_v5\ARM\ARMCC\Bin
- - Selected tool variant: mdk_pro
- - Checkout feature: LIC0=TA...-.....-.....
- - Feature version: 5.0201709
- - Keil error code: 1
-Product: MDK Professional 5.25
-Component: ARM Compiler 5.06 update 6 (build 750)
-Tool: ArmCC [4d3637]
-".\Objects\blinky.axf" - 3 Error(s), 0 Warning(s).
+linking...
+Program Size: Code=540 RO-data=408 RW-data=0 ZI-data=1632  
+".\Objects\blinky.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -108,13 +56,12 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.4.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Target not created.
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
