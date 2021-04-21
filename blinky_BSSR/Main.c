@@ -3,7 +3,7 @@
 /*
 	GPIOx_BSRR	
  
-*	LEDs
+	LEDs
 	Green		- PD12
 	Orange 	- PD13
 	RED			-	PD14
@@ -11,8 +11,13 @@
 	PORT D - GPIODEN
 	AHB1
 	RCC -> AHB1ENR
-	GPIOx_MODER -	Mode
-	GPIOx_ODR 	-	O/p [ 0-15]
+	GPIOx->MODER -	Mode
+	GPIOx->ODR 	-	O/p [ 0-15]
 	
 	
-	
+	*/
+
+
+
+#include "stm32f4xx.h"
+
