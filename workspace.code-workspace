@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "Blink PIO",
+			"path": "Blink PIO"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stm32f4xx.h": "c",
+			"stm32f407xx.h": "c"
+		}
+	}
+}
