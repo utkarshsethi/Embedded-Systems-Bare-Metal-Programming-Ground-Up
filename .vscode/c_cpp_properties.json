@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "C:/Users/utkar/Documents/PlatformIO/Projects/210502-121218-cmsis-blink/include",
+                "C:/Users/utkar/Documents/PlatformIO/Projects/210502-121218-cmsis-blink/src",
+                "C:/Users/utkar/.platformio/packages/framework-cmsis/CMSIS/Include",
+                "C:/Users/utkar/.platformio/packages/framework-cmsis-stm32f4/Include",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/utkar/Documents/PlatformIO/Projects/210502-121218-cmsis-blink/include",
+                    "C:/Users/utkar/Documents/PlatformIO/Projects/210502-121218-cmsis-blink/src",
+                    "C:/Users/utkar/.platformio/packages/framework-cmsis/CMSIS/Include",
+                    "C:/Users/utkar/.platformio/packages/framework-cmsis-stm32f4/Include",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=50101",
+                "STM32F4",
+                "STM32F407xx",
+                "STM32F40_41xxx",
+                "F_CPU=168000000L",
+                "DISCO_F407VG",
+                ""
+            ],
+            "compilerPath": "C:/Users/utkar/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc.exe",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m4",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
