@@ -1,6 +1,0 @@
---c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections
--I.\RTE\_STM32f4
--IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.7.0\CMSIS\Core\Include
--IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.14.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
--D__UVISION_VERSION="525" -D_RTE_ -DSTM32F407xx
--o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d "Main.c"

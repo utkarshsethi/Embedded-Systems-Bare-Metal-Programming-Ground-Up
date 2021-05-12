@@ -1,0 +1,62 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./bin/executable.elf",
+            "name": "Debug Microcontroller",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "stlink"
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "stutil",
+            "cwd": "${workspaceRoot}",
+            "executable": "./firmware.elf",
+            "name": "Debug (ST-Util)",
+            "v1": false
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "configFiles": [
+                "board/stm32f4discovery.cfg"
+            ],
+            "cwd": "${workspaceRoot}",
+            "executable": "./firmware.elf",
+            "name": "Debug openocd STM32F4Discovery",
+            //"device": "STM32F103RB",
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "cwd": "${workspaceRoot}",
+            "executable": "./firmware.elf",
+            "name": "Debug openocd stm32f4x",
+            //"device": "STM32F103RB",
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "configFiles": [
+                "board/stm32f4discovery.cfg"
+            ],
+            "cwd": "${workspaceRoot}",
+            "executable": "./Objects/blinky.hex",
+            "name": "Debug openocd STM32F4Discovery keil",
+            //"device": "STM32F103RB",
+        },
+    ]
+}

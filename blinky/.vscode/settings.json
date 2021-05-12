@@ -1,0 +1,5 @@
+{
+    "stm32-for-vscode.openOCDPath": "C:\\Users\\utkar\\AppData\\Roaming\\xPacks\\@xpack-dev-tools\\openocd\\0.11.0-1.1\\.content\\bin\\openocd",
+    "stm32-for-vscode.makePath": "C:\\Program Files (x86)\\GnuWin32\\bin\\make",
+    "cortex-debug.armToolchainPath": "."
+}
