@@ -43,8 +43,10 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Never">
-   <Watchpoint expression="i" name="i" radix="10" linenumber="204" filename="main.c"/>
-   <Watchpoint expression="k" name="k" radix="10" linenumber="200" filename="main.c"/>
+   <Watchpoint expression="LED1" name="LED1" radix="16" linenumber="11" filename="main.c"/>
+   <Watchpoint expression="LED2" name="LED2" radix="16" linenumber="12" filename="main.c"/>
+   <Watchpoint expression="LED3" name="LED3" radix="16" linenumber="13" filename="main.c"/>
+   <Watchpoint expression="LED4" name="LED4" radix="16" linenumber="14" filename="main.c"/>
   </Watches>
  </Watch1>
  <Watch2>
@@ -57,7 +59,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="27" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="main.c" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="50" y="94" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="main.c" selected="1" top="10" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="Bilnky Segger" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="Bilnky Segger" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
