@@ -37,14 +37,11 @@ USART_BRR (Baud	Rate Register)
 /******************************************************************************/
 
 #include "stm32f4xx.h"
-#include <stdio.h>
 
-#define	toDigit(c) (c -	'0')	//convert	number received	in char	to int							      \
-				//  C/C++	standard work on char encodings	where '0' - '9'	are always together		      \
-				//  '9'	-	'0' will remove	starting  ascii	of '0' from '9'	resulting in the actual	number i.e. 9 \
-				//https://stackoverflow.com/questions/439573/how-to-convert-a-single-char-into-an-int
-
-#define	USART_PORT USART3    //SET TO WHICHEVER	USED
+#define	toDigit(c) (c-'0')    //convert	number received	in char	to int
+			      //  C/C++	standard work on char encodings	where '0' - '9'	are always together
+			      //  '9' -	'0' will remove	starting  ascii	of '0' from '9'	resulting in the actual	number i.e. 9
+			      //https://stackoverflow.com/questions/439573/how-to-convert-a-single-char-into-an-int
 
 /******************************************************************************/
 /*
@@ -79,22 +76,26 @@ void sudo_delay(int delay)
 */
 /******************************************************************************/
 
-void init()
-{
-    RCC->AHB1ENR |= (1 << 3);	 //enable port	D	(1<<3) to use USART3 (PB8,9) and PD12..15 for LEDs
+void init() {
+    RCC->AHB1ENR  |= (1	<< 3);	  //enable port	D	(1<<3) to use USART3 (PB8,9) and PD12..15 for LEDs
 
-    RCC->APB1ENR |= (1 << 18);	  //RCC_APB1ENR_USART3EN = (1<<18)
+    RCC->APB1ENR  |= (1	<< 18);	  //RCC_APB1ENR_USART3EN = (1<<18)
 
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;    //enable PORT	A for USER button A0
+    RCC->AHB1ENR  |= RCC_AHB1ENR_GPIOAEN;	  //enable PORT	A for USER button A0
 
-    GPIOD->MODER |= GPIO_MODER_MODER12_0 | GPIO_MODER_MODER13_0	| GPIO_MODER_MODER14_0 | GPIO_MODER_MODER15_0;	  //set	PD12..15 as o/p	> 0b01
+    GPIOD->MODER  |= GPIO_MODER_MODER12_0
+		  | GPIO_MODER_MODER13_0
+		  | GPIO_MODER_MODER14_0
+		  | GPIO_MODER_MODER15_0;	  //set	PD12..15 as o/p	> 0b01
 
-    GPIOD->MODER |= GPIO_MODER_MODER8_1	      // 0b10 >	AF Mode
-		    | GPIO_MODER_MODER9_1;    //set	PD8,9 to AF
 
-    GPIOD->AFR[1] |= (0b111 << 4 * 0) |	(0b111 << 4 * 1);    //	0111(9)	0111(8)	>  0x77	put PD8,9 as AF7
 
-    /*
+    GPIOD->MODER  |= GPIO_MODER_MODER8_1	  // 0b10 > AF Mode
+		  | GPIO_MODER_MODER9_1;	  //set	PD8,9 to AF
+
+    GPIOD->AFR[1] |= (0b111 << 4 * 0) |	(0b111 << 4 * 1);   //	0111(9)	0111(8)	>  0x77	put PD8,9 as AF7
+
+/*
     BAUD = Fck/(16*USARTDIV)
     i.e. USARTDIV = PCLK1/(Baud*16)
       @Baud=115200 @PCLK1= 16 MHZ
@@ -111,11 +112,12 @@ void init()
     /* UE can be enables in same line, but is recommended to enable USART AFTER	enabling all other config */
     USART3->CR1	|= (1 << 13);	 //Bit 13 UE: USART	Enable
 
+
     //init complete
     GPIOD->BSRR	|= GPIO_BSRR_BS14;
     sudo_delay(500);
     GPIOD->BSRR	|= GPIO_BSRR_BR14;
-}
+  }
 
 /******************************************************************************/
 /*
@@ -130,21 +132,13 @@ void init()
 void usart3_write(int ch)
 {
     //check	Tx buffer is empty
-    while(!(USART3->SR & (1 << 7))) {
-    };			      //Bit	7 TXE: Transmit	data register empty
-    USART3->DR = (ch & 0xFF); /* '&0xFF' makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
+    while(!(USART3->SR & (1 << 7))) { };  //Bit	7 TXE: Transmit	data register empty
+	USART3->DR = (ch & 0xFF);     /* '&0xFF' makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
 				     *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
 				     */
+
 }
 
-//write	single char to USART
-int USART_fputc(int ch)
-{
-    while(!(USART_PORT->SR & (1	<< 7)))	{
-    };
-    USART_PORT->DR = (ch & 0xFF);
-    return ch;
-}
 /******************************************************************************/
 /*
       usart_read()
@@ -157,50 +151,10 @@ int USART_fputc(int ch)
 char usart3_read()
 {
 
-    while(!(USART3->SR & (1 << 5))) {
-    };	  //Bit	5 RXNE:	Read data	register not empty; RXNE = 1
+    while(!(USART3->SR & (1<<5)))	 { };  //Bit	5 RXNE:	Read data	register not empty; RXNE = 1
 
-    return USART3->DR;
-}
+      return USART3->DR;
 
-//read single char from	USART
-int USART_fgetc(void)
-{
-    while(!(USART_PORT->SR & (1	<< 5)))	{
-    };
-
-    return USART_PORT->DR;
-}
-
-/******************************************************************************/
-/*
-	REDIRECT fgetc and fputc to use	USART
-*/
-/******************************************************************************/
-
-struct __FILE {
-    int	handle;
-};
-
-FILE _stdin = {0};
-FILE _stdout =	{1};
-FILE _stderr =	{2};
-
-int fgetc(FILE *f)
-{
-    int	ch;
-    ch = USART_fgetc();
-    if(ch == '\r') {	    //if end of	line
-	USART_fputc(ch);    //echo
-	ch = '\n';	    //set	ch = newline  to get CR	LF
-    }
-    USART_fputc(ch);
-    return ch;
-}
-
-int fputc(int ch, FILE *f)
-{
-    return USART_fputc(ch);
 }
 
 /******************************************************************************/
@@ -229,29 +183,6 @@ void led(int number)
 */
 int main(void)
 {
-    init();
-    char my_string[] = "Hello World!!\r\n";
-    int	number;
-    printf(my_string);
-
-    do {
-
-    printf("Enter a number\r\n");
-    scanf("%d",	&number);
-    number = toDigit(number);
-    led(number);
-    } while(1);
-}
-
-/******************************************************************************/
-/*
-	OLD IMPLEMENTATION  WITHOUT stdio REDIRECTION/overloading
-  */
-/******************************************************************************/
-/*
-int main(void)
-{
-
     //Initialise
     init();
     int	number;
@@ -278,5 +209,5 @@ int main(void)
 	}
     } while(1);
 }
-    */
+
 /*************************** End of file ****************************/

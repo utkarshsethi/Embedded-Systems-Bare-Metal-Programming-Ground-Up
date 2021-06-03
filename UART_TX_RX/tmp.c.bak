@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+#define	USART_PORT USART3    //SET TO WHICHEVER	USED
+
+int USART_fgetc(void)
+{
+    while(!(USART3->SR & (1 << 5))) {
+    };
+
+    return USART_PORT->DR;
+}
+
+int USART_fputc(int ch)
+{
+    while(!(USART3->SR & (1 << 7))) {
+    };
+    USART_PORT->DR = (ch & 0xFF);
+    return ch;
+}
+
+struct __FILE {
+    int	handle;
+};
+
+FILE __stdin = {0};
+FILE __stdout =	{1};
+FILE __stderr =	{2};
+
+int fgetc(FILE *f)
+{
+    int	a;
+    a =	USART_fgetc();
+    if(a == '\r') {
+	USART_fputc(a);
+	a = '\n';
+    }
+    USART_fputc(a);
+    return a;
+}
+
+int fputc(int c, FILE *f)
+{
+    return USART_fputc(c);
+}

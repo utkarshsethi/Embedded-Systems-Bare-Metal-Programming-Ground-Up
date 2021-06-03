@@ -50,6 +50,12 @@
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
       <file file_name="main.c" />
+      <file file_name="redirect.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
+      <file file_name="main_old.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
@@ -61,6 +67,7 @@
   </project>
   <configuration
     Name="Debug"
+    arm_assembler_variant="gcc"
     c_preprocessor_definitions="DEBUG"
     gcc_debugging_level="Level 3"
     gcc_optimization_level="None" />
