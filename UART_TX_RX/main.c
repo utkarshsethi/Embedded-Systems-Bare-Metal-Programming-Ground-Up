@@ -180,7 +180,7 @@ struct __FILE {
     int	handle;
 };
 
-FILE __stdin = {0};
+FILE __stdin	= {0};
 FILE __stdout =	{1};
 FILE __stderr =	{2};
 

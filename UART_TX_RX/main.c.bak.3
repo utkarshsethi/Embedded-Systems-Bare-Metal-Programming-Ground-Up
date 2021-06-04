@@ -44,8 +44,6 @@ USART_BRR (Baud	Rate Register)
 				//  '9'	-	'0' will remove	starting  ascii	of '0' from '9'	resulting in the actual	number i.e. 9 \
 				//https://stackoverflow.com/questions/439573/how-to-convert-a-single-char-into-an-int
 
-#define	USART_PORT USART3    //SET TO WHICHEVER	USED
-
 /******************************************************************************/
 /*
 	  sudo_delay(int delay)
@@ -140,9 +138,9 @@ void usart3_write(int ch)
 //write	single char to USART
 int USART_fputc(int ch)
 {
-    while(!(USART_PORT->SR & (1	<< 7)))	{
+    while(!(USART3->SR & (1	<< 7)))	{
     };
-    USART_PORT->DR = (ch & 0xFF);
+    USART3->DR = (ch & 0xFF);
     return ch;
 }
 /******************************************************************************/
@@ -166,10 +164,10 @@ char usart3_read()
 //read single char from	USART
 int USART_fgetc(void)
 {
-    while(!(USART_PORT->SR & (1	<< 5)))	{
+    while(!(USART3->SR & (1	<< 5)))	{
     };
 
-    return USART_PORT->DR;
+    return USART3->DR;
 }
 
 /******************************************************************************/
@@ -182,9 +180,9 @@ struct __FILE {
     int	handle;
 };
 
-FILE _stdin = {0};
-FILE _stdout =	{1};
-FILE _stderr =	{2};
+__FILE __stdin	={0};
+__FILE __stdout	=	{1};
+__FILE __stderr	=	{2};
 
 int fgetc(FILE *f)
 {
