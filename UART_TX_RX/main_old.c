@@ -191,7 +191,7 @@ void init() {
 //}
 
 //write	single char to USART
-int usart3_putc(int ch)
+void usart3_putc(char ch)
 {
     //check	Tx buffer is empty
     while(!(USART3->SR & (1 << 7))) { //Wait while Tx Buffer is	not empty
@@ -199,7 +199,6 @@ int usart3_putc(int ch)
     USART3->DR = (ch & 0xFF); /*	'&0xFF'	makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
 				     *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
 				     */
-    return ch;
 }
 /******************************************************************************/
 /*
@@ -220,7 +219,7 @@ int usart3_putc(int ch)
 //}
 
 //read single char from	USART
-int usart3_getc()
+char usart3_getc()
 {
     while(!(USART3->SR & (1 << 5))) {	//Wait while Rx	Buffer is empty	or wait	till it	is not empty
     };	  //Bit	5 RXNE:	Read data	register not empty; RXNE = 1
@@ -257,27 +256,20 @@ int main(void)
     //Initialise
     init();
     int	number;
-    char my_string[] = "Hello World!!\r\n";
-
-    // WRITE DATA TO Tx
+    static char	my_string[] = "\r\nWelcome to UART Demo!!\r\nEnter Number of times to blink the	led:\r\n";
     int	size_my_string = sizeof(my_string) / sizeof(*my_string);
-
     do {
-
-	if(GPIOA->IDR &	GPIO_IDR_ID0) {	   // if	PA0	is high
-					   //Read data	from Rx
-
-	    number = toDigit(usart3_getc());
-	    led(number);
+	// WRITE DATA TO Tx
+	for(int	i = 0; i <= size_my_string; i++) {
+	    usart3_putc(my_string[i]);
+	    sudo_delay(10);
 	}
-	else {
-	    //	Send one char at a time.
-	    for(int i =	0; i <=	size_my_string;	i++) {
-		usart3_putc(my_string[i]);
-		sudo_delay(10);
-	    }
-	    //sudo_delay(100);
-	}
+	sudo_delay(50);
+
+	//Read number of time to blink
+	number = toDigit(usart3_getc());
+	led(number);
+
     } while(1);
 }
 
