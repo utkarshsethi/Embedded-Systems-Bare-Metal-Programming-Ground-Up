@@ -38,7 +38,9 @@ USART_BRR (Baud	Rate Register)
 
 #include "stm32f4xx.h"
 #include <stdio.h>
+#include <stdarg.h>
 #include <__vfprintf.h>
+#include <limits.h>
 
 #define	toDigit(c) (c -	'0')	//convert	number received	in char	to int							      \
 				//  C/C++	standard work on char encodings	where '0' - '9'	are always together		      \
@@ -212,20 +214,20 @@ void uart3_printf(const	char *fmt, ...)
   char buf[80],	*p;
   va_list ap;
   va_start(ap, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, ap);
-  for (p = buf;	*p; ++p)
-    uart3_putc(*p, 0);	// null	context
+  vsnprintf(buf, sizeof(buf),	fmt, ap);
+  for	(p = buf;	*p; ++p)
+    uart3_putc(*p);	// null	context
   va_end(ap);
 }
 
 
 //scanf
-typedef	struct
-{
-  char is_string;
-  int (*getc_fn)(void);
-  int (*ungetc_fn)(int);
-} __stream_scanf_t;
+//typedef	struct
+//{
+//  char is_string;
+//  int	(*getc_fn)(void);
+//  int	(*ungetc_fn)(int);
+//} __stream_scanf_t;
 
 static int uart3_ungot = EOF;
 
@@ -233,29 +235,29 @@ int uart3_getc(void)
 {
   if (uart3_ungot)
     {
-      int c = uart3_ungot;
-      uart3_ungot = EOF;
-      return c;
+	int c =	uart3_ungot;
+	uart3_ungot = EOF;
+	return c;
     }
   else
-    return uart3__getc(0);
+    return uart3__getc();
 }
-int uart3_ungetc{int c)
+int uart3_ungetc(int c)
 {
-  uart3_ungot =	c;
+  uart3_ungot	=	c;
 }
 int uart3_scanf(const char *fmt, ...)
 {
-  __stream_scanf_t iod;
-  va_list a;
-  int n;
-  va_start(a, fmt);
-  iod.is_string	= 0;
-  iod.getc_fn =	uart3_getc;
-  iod.ungetc_fn	= uart3_ungetc;
-  n = __vfscanf((__scanf_t *)\&iod, (const unsigned char *)fmt,	a);
-  va_end(a);
-  return n;
+__stream_scanf_t iod;
+va_list	a;
+int n;
+va_start(a, fmt);
+iod.is_string =	0;
+iod.getc_fn = uart3_getc;
+iod.ungetc_fn =	uart3_ungetc;
+n = __vfscanf((__scanf_t *)&iod,	(const unsigned	char *)fmt, a);
+va_end(a);
+return n;
 }
 
 /******************************************************************************/
@@ -287,13 +289,14 @@ int main(void)
     init();
     char my_string[] = "Hello World!!\r\n";
     int	number;
-    printf(my_string);
+    uart3_printf(my_string);
 
     do {
 
-    printf("Enter a number\r\n");
-    scanf("%d",	&number);
+    uart3_printf("Enter	a number\r\n");
+    uart3_scanf("%d",	&number);
     //number = toDigit(number);
+    //number = toDigit(uart3__getc());
     led(number);
     } while(1);
 }
