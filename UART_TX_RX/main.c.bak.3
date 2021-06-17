@@ -39,8 +39,6 @@ USART_BRR (Baud	Rate Register)
 #include "stm32f4xx.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include <__vfprintf.h>
-#include <limits.h>
 
 #define	toDigit(c) (c -	'0')	//convert	number received	in char	to int							      \
 				//  C/C++	standard work on char encodings	where '0' - '9'	are always together		      \
@@ -154,26 +152,46 @@ void init()
 */
 /******************************************************************************/
 
-//void usart3_write(int	ch)
-//{
-//    //check	Tx buffer is empty
-//    while(!(USART3->SR & (1 << 7))) {
-//    };			//Bit	7 TXE: Transmit	data register empty
-//    USART3->DR = (ch & 0xFF);	/* '&0xFF' makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
-//				     *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
-//				     */
-//}
 
 //write	single char to USART
-int uart3_putc(int ch)
+void uart3_SendChar(int	ch)
 {
     //check	Tx buffer is empty
-    while(!(USART3->SR & (1 << 7))) { //Wait while Tx Buffer is	not empty
-    };			      //Bit	7 TXE: Transmit	data register empty
+    while((USART3->SR &	(1 << 7)) == 0)
+    {
+      //Wait while Tx Buffer is	not empty
+      //wait until TXE = 1
+    }	 //Bit	7 TXE: Transmit	data register empty
+
+    //Load data	to DR register
     USART3->DR = (ch & 0xFF); /*	'&0xFF'	makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
 				     *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
 				     */
-    return ch;
+    //check TC > Transmission complete
+    while((USART3->SR &	(1<<6))	== 0)	//Bit 6	TC: Transmission complete
+    {
+      //Wait till TC is	set
+    }
+
+}
+
+/******************************************************************************/
+/*
+
+    uart3_SendString (char *string)
+
+    send string	in argument to usart
+
+*/
+/******************************************************************************/
+
+void uart3_SendString(char *string)
+{
+    while(*string) //while string is not null
+    {
+	//send char in string
+	uart3_SendChar(*string++);
+    }
 }
 /******************************************************************************/
 /*
@@ -184,81 +202,20 @@ int uart3_putc(int ch)
 */
 /******************************************************************************/
 
-//char usart3_read()
-//{
-
-//    while(!(USART3->SR & (1 << 5))) {
-//    };    //Bit	5 RXNE:	Read data	register not empty; RXNE = 1
-
-//    return USART3->DR;
-//}
 
 //read single char from	USART
-int uart3__getc(void)
+int uart3__GetChar(void)
 {
-    while(!(USART3->SR & (1 << 5))) {	//Wait while Rx	Buffer is empty	or wait	till it	is not empty
-    };	  //Bit	5 RXNE:	Read data	register not empty; RXNE = 1
+    //Wait for RXNE to set
+    while((USART3->SR &	(1 << 5)) == 0)	   //Bit 5 RXNE: Read data register not	empty
+    {
+	//Wait while Rx	Buffer is	empty or wait till it is not empty i.e.	till data is filled into DR
+	//RXNE = 1: Received data is ready to	be read.
+    }
 
     return USART3->DR;
 }
 
-/******************************************************************************/
-/*
-	REDIRECT fgetc and fputc to use	USART
-	https://studio.segger.com/index.htm?https://studio.segger.com/libc_customizing_putchar.htm
-*/
-/******************************************************************************/
-
-void uart3_printf(const	char *fmt, ...)
-{
-  char buf[80],	*p;
-  va_list ap;
-  va_start(ap, fmt);
-  vsnprintf(buf, sizeof(buf),	fmt, ap);
-  for	(p = buf;	*p; ++p)
-    uart3_putc(*p);	// null	context
-  va_end(ap);
-}
-
-
-//scanf
-//typedef	struct
-//{
-//  char is_string;
-//  int	(*getc_fn)(void);
-//  int	(*ungetc_fn)(int);
-//} __stream_scanf_t;
-
-static int uart3_ungot = EOF;
-
-//int uart3_getc(void)
-//{
-//  if (uart3_ungot)
-//    {
-//	int c =	uart3_ungot;
-//	uart3_ungot = EOF;
-//	return c;
-//    }
-//  else
-//    return uart3__getc(0);
-//}
-int uart3_ungetc(int c)
-{
-  uart3_ungot	=	c;
-}
-int uart3_scanf(const char *fmt, ...)
-{
-__stream_scanf_t iod;
-va_list	a;
-int n;
-va_start(a, fmt);
-iod.is_string =	0;
-iod.getc_fn = uart3__getc;
-iod.ungetc_fn =	uart3_ungetc;
-n = __vfscanf((__scanf_t *)&iod,	(const unsigned	char *)fmt, a);
-va_end(a);
-return n;
-}
 
 /******************************************************************************/
 /*
@@ -288,13 +245,13 @@ int main(void)
 {
     init();
     char my_string[] = "Hello World!!\r\n";
-    int	number;
-    uart3_printf(my_string);
+    int	number = 0;
+    uart3_SendString(my_string);
 
     do {
-
-    uart3_printf("Enter	a number\r\n");
-    uart3_scanf("%d",	&number);
+    sudo_delay(50);
+    uart3_SendString("Enter	a number\r\n");
+    //uart3_scanf("%d",	&number);
     //number = toDigit(number);
     //number = toDigit(uart3__getc());
     led(number);

@@ -21,7 +21,7 @@
       arm_target_device_name="STM32F407VG"
       arm_target_interface_type="SWD"
       c_preprocessor_definitions="STM32F407xx;__STM32F4xx_FAMILY;__STM32F407_SUBFAMILY;ARM_MATH_CM4"
-      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;$(ProjectDir)/STM32F4xx/CMSIS/Device/Include"
+      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Core/Include;$(ProjectDir)/STM32F4xx/CMSIS/Device/Include;$(ProjectDir)/My Libraries/"
       debug_register_definition_file="$(ProjectDir)/STM32F40x_Registers.xml"
       debug_stack_pointer_start="__stack_end__"
       debug_target_connection="J-Link"
@@ -50,8 +50,7 @@
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
       <file file_name="main.c" />
-      <file file_name="ADC.c" />
-      <file file_name="ADC.h" />
+      <file file_name="My Libraries/ADC.c" />
     </folder>
     <folder Name="System Files">
       <file file_name="SEGGER_THUMB_Startup.s" />
