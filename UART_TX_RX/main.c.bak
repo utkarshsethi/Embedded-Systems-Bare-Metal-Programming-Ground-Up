@@ -253,6 +253,7 @@ int main(void)
     uart3_SendString("Enter a number\r\n");
     number = toDigit(uart3__GetChar());
     led(number);
+    uart3_SendString("\r\n");
     } while(1);
 }
 

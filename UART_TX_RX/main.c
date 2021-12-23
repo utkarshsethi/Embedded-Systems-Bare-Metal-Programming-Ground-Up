@@ -42,7 +42,7 @@ USART_BRR (Baud	Rate Register)
 
 #define	toDigit(c) (c -	'0')	//convert	number received	in char	to int							      \
 				//  C/C++	standard work on char encodings	where '0' - '9'	are always together		      \
-				//  '9'	-	'0' will remove	starting  ascii	of '0' from '9'	resulting in the actual	number i.e. 9 \
+				//  '9'	- '0' will remove	starting  ascii	of '0' from '9'	resulting in the actual	number i.e. 9 \
 				//https://stackoverflow.com/questions/439573/how-to-convert-a-single-char-into-an-int
 
 /******************************************************************************/

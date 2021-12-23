@@ -6,12 +6,11 @@
 -------------------------- END-OF-HEADER -----------------------------
 
 File	: main.c
-Purpose	: Systick delay
+Purpose	: Generic application start
 
 */
 
 #include "stm32f4xx.h"
-#include "systick.h"
 
 /*********************************************************************
 *
@@ -20,20 +19,11 @@ Purpose	: Systick delay
 *  Function description
 *   Application	entry point.
 */
-
 int main(void)
 {
-
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;    //enable port D
-
-    //set pin 15 as output
-    GPIOD->MODER |= (0b01 << 2 * 15);	 //0b01	= o/p
     do {
 
-	GPIOD->ODR ^= (1 << 15);    // toggle diodes Blue LED =	PD.15
-	systick_delay_ms(1000);
     } while(1);
-    return 0;
 }
 
 /*************************** End of file ****************************/

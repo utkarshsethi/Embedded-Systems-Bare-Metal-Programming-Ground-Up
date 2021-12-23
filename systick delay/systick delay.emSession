@@ -1,12 +1,7 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints groups="Breakpoints" active_group="Breakpoints">
-  <BreakpointListItem trigger="" line="23" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="systick.c" useHWbreakpoint="false"/>
-  <BreakpointListItem trigger="" line="26" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="systick.c" useHWbreakpoint="false"/>
-  <BreakpointListItem trigger="" line="28" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="systick.c" useHWbreakpoint="false"/>
-  <BreakpointListItem trigger="" line="37" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="2" filename="systick.c" useHWbreakpoint="false"/>
- </Breakpoints>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints"/>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
   <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
@@ -31,6 +26,7 @@
   <ProjectSessionItem path="systick delay"/>
   <ProjectSessionItem path="systick delay;systick delay"/>
   <ProjectSessionItem path="systick delay;systick delay;CMSIS Files"/>
+  <ProjectSessionItem path="systick delay;systick delay;Source Files"/>
   <SourceCodeControlLogin password="F9BB6682F5D56822" user="utkarsh.sethi7 &lt;utkarsh.sethi7@gmail.com>"/>
  </Project>
  <Register1>
@@ -68,9 +64,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="48" y="26" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="main.c" selected="1" top="3" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="7" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="systick.c" selected="0" top="9" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="36" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="systick.c" selected="0" top="9" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="systick.h" selected="0" top="0" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="62" y="32" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="main.c" selected="0" top="9" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="1618" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="CMSIS_5/CMSIS/Core/Include/core_cm4.h" selected="1" top="1596" codecName="UTF-8"/>
  </Files>
- <ARMCrossStudioWindow activeProject="systick delay" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="D:/Git/Embedded-Systems-Bare-Metal-Programming-Ground-Up/Bilnky Segger" debugSearchPath="" autoConnectCapabilities="3711"/>
+ <ARMCrossStudioWindow activeProject="systick delay" fileDialogDefaultFilter="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.hxx" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="D:/Git/Embedded-Systems-Bare-Metal-Programming-Ground-Up/Bilnky Segger" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

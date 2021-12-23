@@ -34,6 +34,8 @@ int main(void)
 	if(GPIOA->IDR &	GPIO_IDR_ID0) {	   // if	PA0	is high
 	    GPIOD->BSRR	|= GPIO_BSRR_BS14;  //on
 	    //GPIOD->BSRR	|= GPIO_BSRR_BR14;  //off
+
+	    NVIC_SystemReset();
 	}
 	else {
 	    //GPIOD->BSRR	|= GPIO_BSRR_BS14;  //on
