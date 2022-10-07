@@ -37,8 +37,8 @@ USART_BRR (Baud	Rate Register)
 /******************************************************************************/
 
 #include "stm32f4xx.h"
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 #define	toDigit(c) (c -	'0')	//convert	number received	in char	to int							      \
 				//  C/C++	standard work on char encodings	where '0' - '9'	are always together		      \
@@ -64,7 +64,6 @@ void sudo_delay(int delay)
     }
 }
 
-
 /******************************************************************************/
 /*
     BAUD = Fck/(16*USARTDIV)
@@ -77,12 +76,12 @@ void sudo_delay(int delay)
 	Hence BRR = 0x8B
 */
 /******************************************************************************/
-//BRR =	(Pclk +	(BaudRate / 2))	/ BaudRate
+// BRR =	(Pclk +	(BaudRate / 2))	/ BaudRate
 
 static uint16_t	calc_BRR(uint32_t Pclk,	uint32_t BaudRate)
 {
-  uint16_t brr = (Pclk + (BaudRate / 2)) / BaudRate;
-  return  brr;
+    uint16_t brr = (Pclk + (BaudRate / 2)) / BaudRate;
+    return brr;
 }
 
 /******************************************************************************/
@@ -101,19 +100,26 @@ static uint16_t	calc_BRR(uint32_t Pclk,	uint32_t BaudRate)
 
 void init()
 {
-    RCC->AHB1ENR |= (1 << 3);	 //enable port	D	(1<<3) to use USART3 (PB8,9) and PD12..15 for LEDs
+    // enable gpio	clock
+    RCC->AHB1ENR |= (1 << 3);	 // enable port	D	(1<<3) to use USART3 (PB8,9) and PD12..15 for LEDs
 
-    RCC->APB1ENR |= (1 << 18);	  //RCC_APB1ENR_USART3EN = (1<<18)
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;    // enable PORT	A for USER button A0
 
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;    //enable PORT	A for USER button A0
+    // enable usart	clock
+    RCC->APB1ENR |= (1 << 18);	  // RCC_APB1ENR_USART3EN = (1<<18)
 
-    GPIOD->MODER |= GPIO_MODER_MODER12_0 | GPIO_MODER_MODER13_0	| GPIO_MODER_MODER14_0 | GPIO_MODER_MODER15_0;	  //set	PD12..15 as o/p	> 0b01
+    // set gpio	out
+    GPIOD->MODER |= GPIO_MODER_MODER12_0       //
+		    | GPIO_MODER_MODER13_0     //
+		    | GPIO_MODER_MODER14_0     //
+		    | GPIO_MODER_MODER15_0;    // set	PD12..15 as o/p	> 0b01
 
-    GPIOD->MODER |= GPIO_MODER_MODER8_1	      // 0b10 >	AF Mode
-		    | GPIO_MODER_MODER9_1;    //set	PD8,9 to AF
+    // set PD8,9	in alternate func mode
+    GPIOD->MODER |= (0b10 << GPIO_MODER_MODER8_Pos)	  // 0b10 >	AF Mode
+		    | (0b10 << GPIO_MODER_MODER9_Pos);	  // set	PD8,9 to AF
 
-    //	0111(9)	0111(8)	>  0x77	put PD8,9 as AF7
-    GPIOD->AFR[1] |= (0b111 << 4 * 0) |	(0b111 << 4 * 1);    //blocks of 4bits.	So firs	t4 bits	= 4*0 and then 4*1 etc....
+    //	0111(9)	0111(8)	>  0x77	put PD8,9 as AF7(0b0111)
+    GPIOD->AFR[1] |= (0b111 << 4 * 0) |	(0b111 << 4 * 1);    //	blocks of 4bits.	So firs	t4 bits	= 4*0 and then 4*1 etc....
 
     /*
 	BAUD = Fck/(16*USARTDIV)
@@ -125,18 +131,18 @@ void init()
 		    BRR_frac	  =	0.680*16 = 10.88  = 11 =0xB
 	    Hence BRR =	0x8B
     */
-    uint32_t Pclk     =	16000000;
+    uint32_t Pclk = 16000000; //PeripheralClock
     uint32_t BaudRate =	115200;
 
-    USART3->BRR	|= calc_BRR(Pclk, BaudRate);	//set baurdate	= 115200
+    USART3->BRR	|= calc_BRR(Pclk, BaudRate);	// set baurdate	= 115200
 
-    USART3->CR1	|= (1 << 3);	//Bit 3	TE: Transmitter	enable
-    USART3->CR1	|= (1 << 2);	//Bit 2	RE: Receiver enable
+    USART3->CR1	|= (1 << 3);	// Bit 3	TE: Transmitter	enable
+    USART3->CR1	|= (1 << 2);	// Bit 2	RE: Receiver enable
 
     /* UE can be enables in same line, but is recommended to enable USART AFTER	enabling all other config */
-    USART3->CR1	|= (1 << 13);	 //Bit 13 UE: USART	Enable
+    USART3->CR1	|= (1 << 13);	 // Bit	13 UE: USART	Enable
 
-    //init complete
+    // init complete
     GPIOD->BSRR	|= GPIO_BSRR_BS14;
     sudo_delay(500);
     GPIOD->BSRR	|= GPIO_BSRR_BR14;
@@ -144,7 +150,7 @@ void init()
 
 /******************************************************************************/
 /*
-      usart_write(int ch)
+      uart3_SendChar(int ch)
       Write ch to USART_DR
       after checking that buffer is empty
 
@@ -152,27 +158,24 @@ void init()
 */
 /******************************************************************************/
 
-
-//write	single char to USART
+// write	single char to USART
 void uart3_SendChar(int	ch)
 {
-    //check	Tx buffer is empty
-    while((USART3->SR &	(1 << 7)) == 0)
-    {
-      //Wait while Tx Buffer is	not empty
-      //wait until TXE = 1
-    }	 //Bit	7 TXE: Transmit	data register empty
+    // check	Tx buffer is empty
+    while((USART3->SR &	(1 << 7)) == 0)	{
+	// Wait	while Tx Buffer	is	not empty
+	// wait	until TXE = 1
+    }	 // Bit	7 TXE: Transmit	data register empty
 
-    //Load data	to DR register
+    // Load data	to DR register
     USART3->DR = (ch & 0xFF); /*	'&0xFF'	makes	sure value	sent is	8bits (my guess). Might	be better ways to implement
-				     *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
-				     */
-    //check TC > Transmission complete
-    while((USART3->SR &	(1<<6))	== 0)	//Bit 6	TC: Transmission complete
+			       *	'&0x7F'	might be used when parity is  enables and data is 7 bits. (agin	my guess)
+			       */
+    // check TC	> Transmission complete
+    while((USART3->SR &	(1 << 6)) == 0)	   // Bit 6	TC: Transmission complete
     {
-      //Wait till TC is	set
+	// Wait	till TC	is	set
     }
-
 }
 
 /******************************************************************************/
@@ -187,35 +190,33 @@ void uart3_SendChar(int	ch)
 
 void uart3_SendString(char *string)
 {
-    while(*string) //while string is not null
+    while(*string)    // while string is not null
     {
-	//send char in string
+	// send	char in	string
 	uart3_SendChar(*string++);
     }
 }
 /******************************************************************************/
 /*
-      usart_read()
+      uart3__GetChar()
       Read ch from USART_DR
 
       Returns char: data read from DR
 */
 /******************************************************************************/
 
-
-//read single char from	USART
+// read	single char from	USART
 int uart3__GetChar(void)
 {
-    //Wait for RXNE to set
-    while((USART3->SR &	(1 << 5)) == 0)	   //Bit 5 RXNE: Read data register not	empty
+    // Wait for	RXNE to	set
+    while((USART3->SR &	(1 << 5)) == 0)	   // Bit 5 RXNE: Read data register not	empty
     {
-	//Wait while Rx	Buffer is	empty or wait till it is not empty i.e.	till data is filled into DR
-	//RXNE = 1: Received data is ready to	be read.
+	// Wait	while Rx	Buffer is	empty or wait till it is not empty i.e.	till data is filled into DR
+	// RXNE	= 1: Received data is ready to	be read.
     }
 
     return USART3->DR;
 }
-
 
 /******************************************************************************/
 /*
@@ -235,12 +236,12 @@ void led(int number)
 }
 
 /*********************************************************************
-*
-*	main()
-*
-*  Function description
-*   Application	entry point.
-*/
+ *
+ *	main()
+ *
+ *  Function description
+ *   Application	entry point.
+ */
 int main(void)
 {
     init();
@@ -249,11 +250,11 @@ int main(void)
     uart3_SendString(my_string);
 
     do {
-    sudo_delay(50);
-    uart3_SendString("Enter a number\r\n");
-    number = toDigit(uart3__GetChar());
-    led(number);
-    uart3_SendString("\r\n");
+	sudo_delay(50);
+	uart3_SendString("Enter	a number\r\n");
+	number = toDigit(uart3__GetChar());
+	led(number);
+	uart3_SendString("\r\n");
     } while(1);
 }
 

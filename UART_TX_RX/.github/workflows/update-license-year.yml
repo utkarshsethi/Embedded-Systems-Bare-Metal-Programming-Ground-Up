@@ -1,0 +1,50 @@
+name: Update copyright year(s) in license file
+
+# ref: https://github.com/FantasticFiasco/action-update-license-year
+# Controls when the workflow will run
+
+# use to enable manual test
+# on: workflow_dispatch
+
+# #Triggers the workflow on schedule
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 1 1 *
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This is a single job called "update-license-year"
+  update-license-year:
+    # The type of runner that the job will run on
+    runs-on:
+      ubuntu-latest
+
+      # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Runs a single command using the runners shell
+      - uses: FantasticFiasco/action-update-license-year@v2
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          branchName: license
+          commitTitle: Update License Year {{currentYear}}
+          prTitle: Update License Year {{currentYear}}
+          prBody: Update License Year {{currentYear}}
+          assignees: utkarshsethi
+          labels: documentation
+
+        # Auto Merge license -> master
+      - uses: actions/checkout@master
+
+        #merge and delete
+      - name: Auto Merge license -> master
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          gh pr checkout license
+          gh pr merge -d -m

@@ -1,0 +1,21 @@
+name: Questions
+title: '[question]'
+description: General Questions and Queries.
+labels: question
+assignees: utkarshsethi
+
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: QuerY
+      description: General Questions and Queries.
+    validations:
+      required: true
+ 
+  - type: textarea
+    id: code
+    attributes:
+      label: Example code
+      description: The code/log related to the problem.
+      placeholder: "Not applicable."

@@ -63,6 +63,7 @@
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG"
+    gcc_c_language_standard="c17"
     gcc_debugging_level="Level 3"
     gcc_optimization_level="None" />
   <configuration

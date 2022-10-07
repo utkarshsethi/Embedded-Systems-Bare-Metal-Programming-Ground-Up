@@ -1,0 +1,23 @@
+#https://github.com/marketplace/actions/add-license-action
+name: Add License
+
+on:
+  workflow_dispatch:
+  public:
+  project:
+    types: created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Adding License
+        uses: dephraiim/license-action@v1
+        with:
+          LICENSE_TYPE: Apache
+          AUTHOR: Utkarsh Sethi
